@@ -2,6 +2,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
+  text-align: center;
 }
 
 .title {
@@ -55,4 +56,5 @@
 
 .text {
   color: black;
+  text-align: start;
 }

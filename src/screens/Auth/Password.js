@@ -17,7 +17,7 @@ const Password = () => {
         </button>
         <span className={styles.text}>
           계정이 없으신가요?{" "}
-          <a href="" className={styles.link}>
+          <a href="/signup" className={styles.link}>
             회원가입
           </a>
         </span>
