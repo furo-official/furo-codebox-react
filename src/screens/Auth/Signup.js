@@ -1,20 +1,28 @@
 import React, { useState } from "react";
 import styles from "../../styles/form.module.css";
 import { hashPlainText } from "../../utils/crypto";
-import { signup } from "../../api/furoAPI";
+import { signup } from "../../api/authAPI";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [warning, setWarning] = useState(false);
+  const navigate = useNavigate();
 
   const onSubmit = async () => {
     if (!email || !password) {
       return;
     }
     const hashedPassword = await hashPlainText(password);
-    const { response, error } = await signup(email, hashedPassword);
-    console.log(response);
+
+    try {
+      const { response, error } = await signup(email, hashedPassword);
+      if (error) throw error;
+      navigate("/");
+    } catch (error) {
+      navigate("/fail");
+    }
   };
 
   const confirmPassword = (pwd) => {

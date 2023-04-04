@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const instance = axios.create({
+export const authAPI = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL || "https://api.furo.one",
   auth: {
     username: process.env.REACT_APP_FURO_PID,
@@ -8,9 +8,18 @@ export const instance = axios.create({
   },
 });
 
+export const authenticate = async (code) => {
+  const {
+    data: { access_token: accessToken, refresh_token: refreshToken },
+  } = await authAPI.post("/sessions/code/authenticate", {
+    code,
+  });
+  return { accessToken, refreshToken };
+};
+
 export const signup = async (email, password) => {
   try {
-    const response = await instance({
+    const response = await authAPI({
       method: "POST",
       url: `/passwords`,
       data: {
@@ -27,12 +36,11 @@ export const signup = async (email, password) => {
 
 export const login = async (email, password) => {
   try {
-    const response = await instance.post("/passwords/authenticate", {
+    const response = await authAPI.post("/passwords/authenticate", {
       email,
       password,
       projectId: process.env.REACT_APP_FURO_PID,
     });
-    console.log(response);
     return {
       code: response.data.code,
       error: null,
