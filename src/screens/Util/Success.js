@@ -27,10 +27,6 @@ const Success = () => {
     fetchTokens();
   }, []);
 
-  if (!userInfo) {
-    navigate("/");
-  }
-
   return (
     <div>
       <div className={styles.header}>
@@ -51,7 +47,7 @@ const Success = () => {
         </thead>
         <tbody>
           <tr>
-            <td>{userInfo.email}</td>
+            <td>{userInfo?.email}</td>
             <td>{result}</td>
           </tr>
         </tbody>
